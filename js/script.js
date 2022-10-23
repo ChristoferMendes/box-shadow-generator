@@ -78,6 +78,7 @@ class BoxShadowGenerator {
         break;
       case "inset":
         this.inset = value;
+        break;
       case "opacity":
         this.oppacityRef.value = value;
     }
