@@ -1,0 +1,151 @@
+* {
+  font-family: 'Verdana';
+  margin: 0;
+  padding: 0;
+  color: white !important;
+}
+
+body {
+  /* padding-bottom: 100px; */
+  background: #1A1C1D;
+
+}
+
+h2 {
+  margin-bottom: 1.6em;
+  text-align: center;
+  color: #333;
+}
+
+#box-shadow-generator {
+  display: flex;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+#controls-container,
+#preview {
+  flex: 1;
+  padding: 2rem;
+}
+
+/* Controls */
+
+.form-control {
+  display: flex;
+  padding-bottom: 1.2em;
+  margin-bottom: 1.2rem;
+  border-bottom: 1px dashed #ccc;
+}
+
+.form-control label {
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #555;
+}
+
+.range-input {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  
+}
+
+.range-input input[type='range'] {
+  appearance: none;
+  width: 100%;
+  height: 24px;
+  background-color: #d3d3d3;
+  outline: none;
+}
+
+.range-input input[type='range']::-webkit-slider-thumb {
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background-color: #e9d60a;
+  cursor: grab;
+}
+
+.range-input input[type='range']::-webkit-slider-thumb:active {
+  cursor: grabbing;
+}
+
+.reference-input {
+  display: flex;
+  align-items: center;
+
+}
+
+.reference-input p {
+  margin-left: 4px;
+}
+
+.reference-input input {
+  color: black !important;
+}
+
+.form-control input[type='text'] {
+  height: 30px;
+  width: 30px;
+  margin-left: 1rem;
+  text-align: center;
+}
+
+/* Preview */
+#box {
+  width: 100%;
+  height: 300px;
+  background-color: #e9d60a;
+}
+
+/* Generator-area */
+#generated-rule {
+  text-align: center;
+}
+
+#generated-rule p {
+  margin-bottom: .5rem;
+}
+
+#rules-area {
+  background: #d3d3d3;
+  max-width: 1000px;
+  margin: 0 auto;
+  border: 2px solid #e9d60a;
+  padding: 1rem;
+}
+
+#rules-area p, #rules-area span {
+  color: #000 !important;
+}
+
+
+
+/*Color */
+#color-value {
+  width: 100px;
+
+}
+
+/*Button*/
+#button {
+  border: 0;
+  background-color: #555;
+  color: white;
+  height: 35px;
+  padding: 5px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.modal-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  z-index: 2;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  display: none;
+}
