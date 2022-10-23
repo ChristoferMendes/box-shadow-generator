@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="css/styles.css">
-  <script src="js/script.js" defer></script>
+  <script src="js/script.js" defer type="module"></script>
 </head>
 
 <body>
@@ -73,6 +73,17 @@
         </div>
       </div>
 
+      <div class="form-control">
+        <div class="range-input">
+          <label for="range">Opacity</label>
+          <input type="range" id="opacity" name="opacity" min="0" max="100" value="100">
+        </div>
+        <div class="reference-input">
+          <input type="text" id="opacity-value" name="opacity-value" value="100">
+          <p>%</p>
+        </div>
+      </div>
+      
       <button type="button" name="button" id="button">Inner shadow</button>
     </div>
     <div id="preview">
@@ -80,7 +91,7 @@
       <div style="display: flex">
         <div id="box">
         </div>
-        <input style="margin-left: 20px;" type="color" id="preview-box-color" value="#e9d60a"/>
+        <input style="margin-left: 20px;" type="color" id="preview-box-color" value="#e9d60a" />
       </div>
     </div>
   </div>
@@ -88,6 +99,7 @@
     <h2>Copy and paste in your CSS</h2>
     <div id="rules-area">
       <p id="rule">box-shadow: <span></span>;</p>
+
       <p id="webkit-rule">-webkit-box-shadow: <span></span>;</p>
       <p id="moz-rule">-moz-box-shadow: <span></span>;</p>
     </div>

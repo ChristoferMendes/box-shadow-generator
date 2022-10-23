@@ -1,5 +1,7 @@
+import { HandleInputChange } from "./inputs.js";
+
 class BoxShadowGenerator {
-  constructor(horizontal, horizontalRef, vertical, verticalRef, blur, blurRef, spread, spreadRef, previewBox, rule, webkitRule, mozRule, color, colorRef, inset) {
+  constructor(horizontal, horizontalRef, vertical, verticalRef, blur, blurRef, spread, spreadRef, previewBox, rule, webkitRule, mozRule, color, colorRef, oppacity, oppacityRef) {
     this.horizontal = horizontal;
     this.horizontalRef = horizontalRef;
     this.vertical = vertical;
@@ -14,7 +16,8 @@ class BoxShadowGenerator {
     this.mozRule = mozRule;
     this.color = color;
     this.colorRef = colorRef;
-    this.inset = inset
+    this.oppacity = oppacity;
+    this.oppacityRef = oppacityRef;
   }
 
   initialize() {
@@ -23,13 +26,13 @@ class BoxShadowGenerator {
     this.blurRef.value = this.blur.value;
     this.spreadRef.value = this.spread.value;
     this.colorRef.value = this.color.value;
+    this.oppacityRef.value = this.oppacity.value;
 
     this.applyRule();
     this.showRule();
   }
 
   applyRule() {
-    console.log(this.colorRef.value);
     this.previewBox.style.boxShadow = `
       ${this.inset ? 'inset' : ''}
       ${this.horizontalRef.value}px 
@@ -37,10 +40,16 @@ class BoxShadowGenerator {
       ${this.blurRef.value}px 
       ${this.spreadRef.value}px 
       ${this.colorRef.value != '#000000' 
-      ? `rgb(${this.colorRef.value})` 
+      ? `rgba(${this.colorRef.value}, ${this.oppacityRef.value / 100})` 
       : this.colorRef.value}
     `
-    this.currentRule = this.previewBox.style.boxShadow;
+    this.changeTextStyle = previewBox.style.boxShadow
+    const pixels = this.changeTextStyle.replace(/.*[)]/g, '').replace('inset', '')
+    const rgb = this.changeTextStyle.replace(/[)].*/g, ')')
+    const inset = this.changeTextStyle.includes('inset') ? this.changeTextStyle.replace(/.*inset/g, 'inset') : ''
+    this.currentRule = `${inset} ${pixels} ${rgb} `;
+
+    this.showRule();
 
   }
 
@@ -69,10 +78,11 @@ class BoxShadowGenerator {
         break;
       case "inset":
         this.inset = value;
+      case "opacity":
+        this.oppacityRef.value = value;
     }
 
     this.applyRule();
-    this.showRule();
   }
 }
 
@@ -87,7 +97,11 @@ const spread = document.querySelector('#spread');
 const spreadRef = document.querySelector('#spread-value');
 const color = document.querySelector('#color');
 const colorRef = document.querySelector('#color-value');
+const oppacity = document.querySelector('#opacity')
+const oppacityRef = document.querySelector('#opacity-value')
 const button = document.querySelector('#button');
+
+
 
 const previewBox = document.querySelector('#box');
 
@@ -97,35 +111,10 @@ const mozRule = document.querySelector('#moz-rule span')
 
 let isInner = false;
 
-const boxShadow = new BoxShadowGenerator(horizontal, horizontalRef, vertical, verticalRef, blur, blurRef, spread, spreadRef, previewBox, rule, webkitRule, mozRule, color, colorRef)
+export const boxShadow = new BoxShadowGenerator(horizontal, horizontalRef, vertical, verticalRef, blur, blurRef, spread, spreadRef, previewBox, rule, webkitRule, mozRule, color, colorRef, oppacity, oppacityRef)
 
 boxShadow.initialize();
-console.log(boxShadow)
-// Events
-horizontal.addEventListener('input', (e) => {
-  const value = e.target.value;
-
-  boxShadow.updateValue('horizontal', value)
-})
-
-vertical.addEventListener('input', (e) => {
-  const value = e.target.value;
-
-  boxShadow.updateValue('vertical', value)
-})
-
-blur.addEventListener('input', (e) => {
-  const value = e.target.value;
-  
-
-  boxShadow.updateValue('blur', value)
-})
-
-spread.addEventListener('input', (e) => {
-  const value = e.target.value;
-
-  boxShadow.updateValue('spread', value)
-})
+HandleInputChange();
 
 color.addEventListener('input', (e) => {
   const value = e.target.value;
@@ -188,7 +177,6 @@ const boxCopy = new BoxCopy(rule.innerHTML, webkitRule.innerHTML, mozRule.innerH
 
 // Copy to clipboard
 
-
 class Modal {
   constructor(modal) {
     this.modal = modal;
@@ -216,4 +204,6 @@ document.querySelectorAll("#rules-area p span").forEach(item => {
 modalButton.addEventListener('click', () => {
   modal.close();
 })
+
+
 
