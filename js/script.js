@@ -1,3 +1,4 @@
+import { hexToRgb } from "./HexToRgb.js";
 import { HandleInputChange } from "./inputs.js";
 
 class BoxShadowGenerator {
@@ -25,7 +26,7 @@ class BoxShadowGenerator {
     this.verticalRef.value = this.vertical.value;
     this.blurRef.value = this.blur.value;
     this.spreadRef.value = this.spread.value;
-    this.colorRef.value = this.color.value;
+    this.colorRef.value = hexToRgb(this.color.value);
     this.oppacityRef.value = this.oppacity.value;
 
     this.applyRule();
@@ -33,15 +34,14 @@ class BoxShadowGenerator {
   }
 
   applyRule() {
+    console.log(this.colorRef.value)
     this.previewBox.style.boxShadow = `
       ${this.inset ? 'inset' : ''}
       ${this.horizontalRef.value}px 
       ${this.verticalRef.value}px 
       ${this.blurRef.value}px 
       ${this.spreadRef.value}px 
-      ${this.colorRef.value != '#000000' 
-      ? `rgba(${this.colorRef.value}, ${this.oppacityRef.value / 100})` 
-      : this.colorRef.value}
+      rgba(${this.colorRef.value}, ${this.oppacityRef.value / 100})
     `
     this.changeTextStyle = previewBox.style.boxShadow
     const pixels = this.changeTextStyle.replace(/.*[)]/g, '').replace('inset', '')
@@ -61,9 +61,9 @@ class BoxShadowGenerator {
 
   updateValue(type, value) {
     switch (type) {
-      case "horizontal":
-        this.horizontalRef.value = value;
-        break;
+      // case "horizontal":
+      //   this.horizontalRef.value = value;
+      //   break;
       case "vertical":
         this.verticalRef.value = value;
         break;
@@ -73,7 +73,7 @@ class BoxShadowGenerator {
       case "spread":
         this.spreadRef.value = value;
         break;
-      case "color": 
+      case "color":
         this.colorRef.value = value;
         break;
       case "inset":
@@ -82,8 +82,10 @@ class BoxShadowGenerator {
       case "opacity":
         this.oppacityRef.value = value;
     }
-
     this.applyRule();
+
+
+
   }
 }
 
@@ -120,11 +122,11 @@ HandleInputChange();
 color.addEventListener('input', (e) => {
   const value = e.target.value;
   const hexToRgb = hex =>
-  hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i
-             ,(m, r, g, b) => '#' + r + r + g + g + b + b)
-    .substring(1).match(/.{2}/g)
-    .map(x => parseInt(x, 16))
-  
+    hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i
+      , (m, r, g, b) => '#' + r + r + g + g + b + b)
+      .substring(1).match(/.{2}/g)
+      .map(x => parseInt(x, 16))
+
   boxShadow.updateValue('color', hexToRgb(value))
 })
 
@@ -165,9 +167,9 @@ class BoxCopy {
     this.rule = rule;
     this.webkit = webkit;
     this.mozRule = mozRule;
-  } 
-  
-  copy (item) {
+  }
+
+  copy(item) {
     navigator.clipboard.writeText(item);
   }
 
@@ -182,7 +184,7 @@ class Modal {
   constructor(modal) {
     this.modal = modal;
   }
-  
+
   open() {
     this.modal.style.display = 'flex'
   }
@@ -205,6 +207,3 @@ document.querySelectorAll("#rules-area p span").forEach(item => {
 modalButton.addEventListener('click', () => {
   modal.close();
 })
-
-
-
