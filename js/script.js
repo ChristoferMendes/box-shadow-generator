@@ -61,9 +61,9 @@ class BoxShadowGenerator {
 
   updateValue(type, value) {
     switch (type) {
-      // case "horizontal":
-      //   this.horizontalRef.value = value;
-      //   break;
+      case "horizontal":
+        this.horizontalRef.value = value;
+        break;
       case "vertical":
         this.verticalRef.value = value;
         break;
