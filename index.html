@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/script.js" defer type="module"></script>
+</head>
+
+<body>
+  <div class="modal-container">
+    <h1>MODAL</h1>
+    <button>hit to dismiss</button>
+  </div>
+  <div id="box-shadow-generator">
+    <div id="controls-container">
+      <h2>Box shadow configs:</h2>
+      <div class="form-control">
+        <div class="range-input">
+          <label for="horizontal">Horizontal offset:</label>
+          <input type="range" id="horizontal" name="horizontal" min="-100" max="100" value="5">
+        </div>
+        <div class="reference-input">
+          <input type="text" id="horizontal-value" name="horizontal-value">
+          <p>px</p>
+        </div>
+      </div>
+
+      <div class="form-control">
+        <div class="range-input">
+          <label for="vertical">Vertical offset:</label>
+          <input type="range" id="vertical" name="vertical" min="-100" max="100" value="5">
+        </div>
+        <div class="reference-input">
+          <input type="text" id="vertical-value" name="vertical-value">
+          <p>px</p>
+        </div>
+      </div>
+
+      <div class="form-control">
+        <div class="range-input">
+          <label for="blur">Blur intensity</label>
+          <input type="range" id="blur" name="blur" min="0" max="100" value="10">
+        </div>
+        <div class="reference-input">
+          <input type="text" id="blur-value" name="blur-value">
+          <p>px</p>
+        </div>
+      </div>
+
+      <div class="form-control">
+        <div class="range-input">
+          <label for="spread">Spread intensity</label>
+          <input type="range" id="spread" name="spread" min="-100" max="100" value="10">
+        </div>
+        <div class="reference-input">
+          <input type="text" id="spread-value" name="spread-value">
+          <p>px</p>
+        </div>
+      </div>
+
+      <div class="form-control">
+        <div class="range-input">
+          <label for="color">Color</label>
+          <input type="color" id="color" name="color" min="-100" max="100" value="#000000">
+        </div>
+        <div class="reference-input">
+          <input type="text" id="color-value" name="color-value" value="000">
+          <p></p>
+        </div>
+      </div>
+
+      <div class="form-control">
+        <div class="range-input">
+          <label for="range">Opacity</label>
+          <input type="range" id="opacity" name="opacity" min="0" max="100" value="100">
+        </div>
+        <div class="reference-input">
+          <input type="text" id="opacity-value" name="opacity-value" value="100">
+          <p>%</p>
+        </div>
+      </div>
+      
+      <button type="button" name="button" id="button">Inner shadow</button>
+    </div>
+    <div id="preview">
+      <h2>Effect Preview:</h2>
+      <div style="display: flex">
+        <div id="box">
+        </div>
+        <input style="margin-left: 20px;" type="color" id="preview-box-color" value="#e9d60a" />
+      </div>
+    </div>
+  </div>
+  <div id="generated-rule">
+    <h2>Copy and paste in your CSS</h2>
+    <div id="rules-area">
+      <p id="rule">box-shadow: <span></span>;</p>
+
+      <p id="webkit-rule">-webkit-box-shadow: <span></span>;</p>
+      <p id="moz-rule">-moz-box-shadow: <span></span>;</p>
+    </div>
+  </div>
+</body>
+
+</html>
