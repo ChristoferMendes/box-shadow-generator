@@ -174,17 +174,22 @@ colorPreviewButton.addEventListener('input', (e) => {
   boxPreview.updateValue(value)
 })
 
-class BoxCopy {
-  constructor(rule, webkit, mozRule) {
-    this.rule = rule;
-    this.webkit = webkit;
-    this.mozRule = mozRule;
-  }
+const clipboard = document.querySelectorAll('.rules-clipboard');
+const rules = document.querySelectorAll('.rules-container .css-rule');
+const clipboardTextWarns = document.querySelectorAll('.clipboard-copy-warn');
+clipboard.forEach((item, index) => {
+  item.addEventListener('click', () => {
+    const ruleText = rules[index].innerText
+    const rule = ruleText + ';'
+    console.log(rule)
 
-  copy(item) {
-    navigator.clipboard.writeText(item);
-  }
+    navigator.clipboard.writeText(rule)
+    const clipBoardWarn = clipboardTextWarns[index]
 
-}
+    clipBoardWarn.classList.remove('disabled')
 
-const boxCopy = new BoxCopy(rule.innerHTML, webkitRule.innerHTML, mozRule.innerHTML)
+    setTimeout(() => {
+      clipBoardWarn.classList.toggle('disabled')
+    }, 1000);
+  })
+})

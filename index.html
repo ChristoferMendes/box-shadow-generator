@@ -17,7 +17,7 @@
       <div class="form-control">
         <div class="range-input">
           <label for="horizontal">Horizontal offset:</label>
-          <input type="range" id="horizontal" name="horizontal" min="-100" max="100" value="5">
+          <input type="range" id="horizontal" name="horizontal" min="-100" max="100" value="0">
         </div>
         <div class="reference-input">
           <input type="text" id="horizontal-value" name="horizontal-value">
@@ -28,7 +28,7 @@
       <div class="form-control">
         <div class="range-input">
           <label for="vertical">Vertical offset:</label>
-          <input type="range" id="vertical" name="vertical" min="-100" max="100" value="5">
+          <input type="range" id="vertical" name="vertical" min="-100" max="100" value="17">
         </div>
         <div class="reference-input">
           <input type="text" id="vertical-value" name="vertical-value">
@@ -79,7 +79,7 @@
           <p>%</p>
         </div>
       </div>
-      
+
       <button type="button" name="button" id="button">Inner shadow</button>
     </div>
     <div id="preview">
@@ -94,10 +94,21 @@
   <div id="generated-rule">
     <h2>Copy and paste in your CSS</h2>
     <div id="rules-area">
-      <p id="rule">box-shadow: <span></span>;</p>
-
-      <p id="webkit-rule">-webkit-box-shadow: <span></span>;</p>
-      <p id="moz-rule">-moz-box-shadow: <span></span>;</p>
+      <div class="rules-container">
+        <p id="rule" class="css-rule">box-shadow: <span></span></p>
+        <img src="https://cdn-icons-png.flaticon.com/512/60/60990.png" alt="Click to Copy" width="20" height="25" class="rules-clipboard"/>
+        <p class="clipboard-copy-warn disabled">box shadow rule copied!</p>
+      </div>
+      <div class="rules-container">
+        <p id="webkit-rule" class="css-rule">-webkit-box-shadow: <span></span></p>
+        <img src="https://cdn-icons-png.flaticon.com/512/60/60990.png" alt="Click to Copy" width="20" height="25" class="rules-clipboard"/>
+        <p class="clipboard-copy-warn disabled">box shadow rule copied!</p>
+      </div>
+      <div class="rules-container">
+        <p id="moz-rule" class="css-rule">-moz-box-shadow: <span></span></p>
+        <img src="https://cdn-icons-png.flaticon.com/512/60/60990.png" alt="Click to Copy" width="20" height="25" class="rules-clipboard"/>
+        <p class="clipboard-copy-warn disabled">box shadow rule copied!</p>
+      </div>
     </div>
   </div>
 </body>

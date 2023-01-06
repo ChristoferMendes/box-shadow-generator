@@ -120,6 +120,20 @@ h2 {
   color: #000 !important;
 }
 
+.rules-container {
+  display: flex;
+  justify-content: center;
+}
+
+.rules-container img {
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.clipboard-copy-warn {
+  margin-left: 10px;
+}
+
 
 
 /*Color */
@@ -139,13 +153,6 @@ h2 {
   cursor: pointer;
 }
 
-.modal-container {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  z-index: 2;
-  position: absolute;
-  align-items: center;
-  justify-content: center;
+.disabled {
   display: none;
 }
