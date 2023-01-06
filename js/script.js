@@ -46,6 +46,7 @@ class BoxShadowGenerator {
     this.changeTextStyle = previewBox.style.boxShadow
     const pixels = this.changeTextStyle.replace(/.*[)]/g, '').replace('inset', '')
     const rgb = this.changeTextStyle.replace(/[)].*/g, ')')
+    console.log(rgb)
     const inset = this.changeTextStyle.includes('inset') ? this.changeTextStyle.replace(/.*inset/g, 'inset') : ''
     this.currentRule = `${inset} ${pixels} ${rgb} `;
 
@@ -119,8 +120,11 @@ export const boxShadow = new BoxShadowGenerator(horizontal, horizontalRef, verti
 boxShadow.initialize();
 HandleInputChange();
 
+console.log(color)
+
 color.addEventListener('input', (e) => {
   const value = e.target.value;
+  console.log('valueeee', value)
   const hexToRgb = hex =>
     hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i
       , (m, r, g, b) => '#' + r + r + g + g + b + b)
@@ -157,6 +161,7 @@ class BoxPreview {
 }
 
 const boxPreview = new BoxPreview();
+boxPreview.updateValue(colorPreviewButton.value);
 colorPreviewButton.addEventListener('input', (e) => {
   const { value } = e.target;
   boxPreview.updateValue(value)
@@ -176,34 +181,3 @@ class BoxCopy {
 }
 
 const boxCopy = new BoxCopy(rule.innerHTML, webkitRule.innerHTML, mozRule.innerHTML)
-
-
-// Copy to clipboard
-
-class Modal {
-  constructor(modal) {
-    this.modal = modal;
-  }
-
-  open() {
-    this.modal.style.display = 'flex'
-  }
-
-  close() {
-    this.modal.style.display = 'none'
-  }
-}
-
-const modal = new Modal(modalContainer)
-
-document.querySelectorAll("#rules-area p span").forEach(item => {
-  item.addEventListener('click', () => {
-    const rules = item.parentNode.innerText;
-    boxCopy.copy(rules);
-    modal.open();
-  })
-})
-
-modalButton.addEventListener('click', () => {
-  modal.close();
-})
