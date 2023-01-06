@@ -155,8 +155,15 @@ class BoxPreview {
   }
 
   updateValue(color) {
-    this.color = color;
+    const colorSerialized = this._verifyColorIsBlack(color);
+    this.color = colorSerialized;
     this.colorize();
+  }
+
+  _verifyColorIsBlack(color) {
+    if (color === '#000000') return '#FFFF00'
+
+    return color;
   }
 }
 
