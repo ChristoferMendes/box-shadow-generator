@@ -179,9 +179,8 @@ const rules = document.querySelectorAll('.rules-container .css-rule');
 const clipboardTextWarns = document.querySelectorAll('.clipboard-copy-warn');
 clipboard.forEach((item, index) => {
   item.addEventListener('click', () => {
-    const ruleText = rules[index].innerText
+    const { innerText: ruleText } = rules[index]
     const rule = ruleText + ';'
-    console.log(rule)
 
     navigator.clipboard.writeText(rule)
     const clipBoardWarn = clipboardTextWarns[index]
