@@ -34,7 +34,6 @@ class BoxShadowGenerator {
   }
 
   applyRule() {
-    console.log(this.colorRef.value)
     this.previewBox.style.boxShadow = `
       ${this.inset ? 'inset' : ''}
       ${this.horizontalRef.value}px 
@@ -46,7 +45,6 @@ class BoxShadowGenerator {
     this.changeTextStyle = previewBox.style.boxShadow
     const pixels = this.changeTextStyle.replace(/.*[)]/g, '').replace('inset', '')
     const rgb = this.changeTextStyle.replace(/[)].*/g, ')')
-    console.log(rgb)
     const inset = this.changeTextStyle.includes('inset') ? this.changeTextStyle.replace(/.*inset/g, 'inset') : ''
     this.currentRule = `${inset} ${pixels} ${rgb} `;
 
@@ -120,11 +118,9 @@ export const boxShadow = new BoxShadowGenerator(horizontal, horizontalRef, verti
 boxShadow.initialize();
 HandleInputChange();
 
-console.log(color)
 
 color.addEventListener('input', (e) => {
   const value = e.target.value;
-  console.log('valueeee', value)
   const hexToRgb = hex =>
     hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i
       , (m, r, g, b) => '#' + r + r + g + g + b + b)
