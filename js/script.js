@@ -1,209 +1,158 @@
-import { hexToRgb } from "./HexToRgb.js";
-import { HandleInputChange } from "./inputs.js";
+import { blur } from "./classes/blur.js";
+import { color } from "./classes/color.js";
+import { horizontal } from "./classes/horizontal.js";
+import { inset } from "./classes/inset.js";
+import { opacity } from "./classes/opacity.js";
+import { spread } from "./classes/spread.js";
+import { vertical } from "./classes/vertical.js";
+import { HexAlpha } from "./modules/hexAlpha.js";
+import { updateValues } from "./modules/updateValues.js";
 
-class BoxShadowGenerator {
-  constructor(horizontal, horizontalRef, vertical, verticalRef, blur, blurRef, spread, spreadRef, previewBox, rule, webkitRule, mozRule, color, colorRef, oppacity, oppacityRef) {
-    this.horizontal = horizontal;
-    this.horizontalRef = horizontalRef;
-    this.vertical = vertical;
-    this.verticalRef = verticalRef;
-    this.blur = blur;
-    this.blurRef = blurRef;
-    this.spread = spread;
-    this.spreadRef = spreadRef;
+export class Box {
+  horizontal = horizontal.horizontalRef;
+  vertical = vertical.verticalRef;
+  blur = blur.blurRef;
+  spread = spread.spreadRef;
+  color = color.colorRef;
+  opacity = opacity.opacityRef;
+  inset = inset
+  #hexAlpha = HexAlpha
+
+  constructor(previewBox) {
     this.previewBox = previewBox;
-    this.rule = rule;
-    this.webkitRule = webkitRule;
-    this.mozRule = mozRule;
-    this.color = color;
-    this.colorRef = colorRef;
-    this.oppacity = oppacity;
-    this.oppacityRef = oppacityRef;
   }
 
-  initialize() {
-    this.horizontalRef.value = this.horizontal.value;
-    this.verticalRef.value = this.vertical.value;
-    this.blurRef.value = this.blur.value;
-    this.spreadRef.value = this.spread.value;
-    this.colorRef.value = hexToRgb(this.color.value);
-    this.oppacityRef.value = this.oppacity.value;
+  updateBoxShadowValue() {
+    const hexAlpha = this.#transformHexToRGBA()
+    const hasInset = this.defineInset()
 
-    this.applyRule();
-    this.showRule();
-  }
-
-  applyRule() {
-    console.log(this.colorRef.value)
-    this.previewBox.style.boxShadow = `
-      ${this.inset ? 'inset' : ''}
-      ${this.horizontalRef.value}px 
-      ${this.verticalRef.value}px 
-      ${this.blurRef.value}px 
-      ${this.spreadRef.value}px 
-      rgba(${this.colorRef.value}, ${this.oppacityRef.value / 100})
+    const boxShadowStyle = `
+    ${this.horizontal.value}px
+    ${this.vertical.value}px
+    ${this.blur.value}px
+    ${this.spread.value}px
+    ${hasInset}
+    ${hexAlpha}
     `
-    this.changeTextStyle = previewBox.style.boxShadow
-    const pixels = this.changeTextStyle.replace(/.*[)]/g, '').replace('inset', '')
-    const rgb = this.changeTextStyle.replace(/[)].*/g, ')')
-    const inset = this.changeTextStyle.includes('inset') ? this.changeTextStyle.replace(/.*inset/g, 'inset') : ''
-    this.currentRule = `${inset} ${pixels} ${rgb} `;
 
-    this.showRule();
-
+    this.previewBox.style.boxShadow = boxShadowStyle
   }
 
-  showRule() {
-    this.rule.innerText = this.currentRule;
-    this.webkitRule.innerText = this.currentRule;
-    this.mozRule.innerText = this.currentRule;
+
+  #transformHexToRGBA() {
+    const opacityToPercent = this.opacity.value  / 100
+    const hexAlpha = new this.#hexAlpha(this.color.value, opacityToPercent)
+
+    return hexAlpha.alphaColor
   }
 
-  updateValue(type, value) {
-    switch (type) {
-      case "horizontal":
-        this.horizontalRef.value = value;
-        break;
-      case "vertical":
-        this.verticalRef.value = value;
-        break;
-      case "blur":
-        this.blurRef.value = value;
-        break;
-      case "spread":
-        this.spreadRef.value = value;
-        break;
-      case "color":
-        this.colorRef.value = value;
-        break;
-      case "inset":
-        this.inset = value;
-        break;
-      case "opacity":
-        this.oppacityRef.value = value;
-    }
-    this.applyRule();
-
-
-
+  defineInset () {
+    const { insetValue } = this.inset
+    const hasInset = insetValue ? 'inset' : ''
+    return hasInset
   }
 }
 
-// Element selection
-const horizontal = document.querySelector('#horizontal');
-const horizontalRef = document.querySelector('#horizontal-value');
-const vertical = document.querySelector('#vertical');
-const verticalRef = document.querySelector('#vertical-value');
-const blur = document.querySelector('#blur');
-const blurRef = document.querySelector('#blur-value');
-const spread = document.querySelector('#spread');
-const spreadRef = document.querySelector('#spread-value');
-const color = document.querySelector('#color');
-const colorRef = document.querySelector('#color-value');
-const oppacity = document.querySelector('#opacity')
-const oppacityRef = document.querySelector('#opacity-value')
-const button = document.querySelector('#button');
+class BoxRule extends Box {
 
-
-
-const previewBox = document.querySelector('#box');
-
-const rule = document.querySelector('#rule span');
-const webkitRule = document.querySelector('#webkit-rule span')
-const mozRule = document.querySelector('#moz-rule span')
-
-let isInner = false;
-
-export const boxShadow = new BoxShadowGenerator(horizontal, horizontalRef, vertical, verticalRef, blur, blurRef, spread, spreadRef, previewBox, rule, webkitRule, mozRule, color, colorRef, oppacity, oppacityRef)
-
-boxShadow.initialize();
-HandleInputChange();
-
-color.addEventListener('input', (e) => {
-  const value = e.target.value;
-  const hexToRgb = hex =>
-    hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i
-      , (m, r, g, b) => '#' + r + r + g + g + b + b)
-      .substring(1).match(/.{2}/g)
-      .map(x => parseInt(x, 16))
-
-  boxShadow.updateValue('color', hexToRgb(value))
-})
-
-button.addEventListener('click', () => {
-  isInner = !isInner;
-  boxShadow.updateValue('inset', isInner);
-  isInner ? button.innerHTML = 'Out Shadow' : button.innerHTML = 'Inner Shadow'
-});
-
-const modalContainer = document.querySelector('.modal-container');
-const modalButton = document.querySelector('.modal-container button');
-
-const colorPreviewButton = document.querySelector('#preview-box-color')
-
-class BoxPreview {
-  constructor(color) {
-    this.color = color;
-  }
-
-  colorize() {
-    previewBox.style.backgroundColor = this.color
-  }
-
-  updateValue(color) {
-    this.color = color;
-    this.colorize();
-  }
-}
-
-const boxPreview = new BoxPreview();
-colorPreviewButton.addEventListener('input', (e) => {
-  const { value } = e.target;
-  boxPreview.updateValue(value)
-})
-
-class BoxCopy {
-  constructor(rule, webkit, mozRule) {
+  constructor(rule, previewBox) {
+    super(previewBox)
     this.rule = rule;
-    this.webkit = webkit;
-    this.mozRule = mozRule;
   }
 
-  copy(item) {
-    navigator.clipboard.writeText(item);
+  updateRuleText() {
+    const { ruleString }  = this.#serializeRule()
+
+    this.rule.innerHTML = ruleString?.trim();
   }
 
+  #serializeRule () {
+    const boxShadow = this.previewBox.style.boxShadow
+    if (typeof boxShadow !== 'string') return {};
+
+    const rgbaStringRegex = /\)\s/g
+    const [rgba, pixels] = boxShadow?.split(rgbaStringRegex)
+
+    const [horizontal, vertical, blur, spread] = pixels?.split(' ') ?? []
+    const hasInset = this.defineInset()
+    
+    const rgbaSerialized = rgba + ')'
+    const ruleString = `
+      ${horizontal}
+      ${vertical}
+      ${blur}
+      ${spread}
+      ${hasInset}
+      ${rgbaSerialized}
+    `
+
+    return { ruleString  }
+  }
 }
 
-const boxCopy = new BoxCopy(rule.innerHTML, webkitRule.innerHTML, mozRule.innerHTML)
+class BoxColor extends Box {
+  constructor(previewBox, boxColorRef) {
+    super(previewBox)
+    this.boxColorRef = boxColorRef
 
-
-// Copy to clipboard
-
-class Modal {
-  constructor(modal) {
-    this.modal = modal;
   }
 
-  open() {
-    this.modal.style.display = 'flex'
+  initialize () {
+    this.previewBox.style.backgroundColor = this.boxColorRef.value;
   }
 
-  close() {
-    this.modal.style.display = 'none'
+  updateColor (value) {
+    this.previewBox.style.backgroundColor = value
   }
 }
 
-const modal = new Modal(modalContainer)
 
-document.querySelectorAll("#rules-area p span").forEach(item => {
-  item.addEventListener('click', () => {
-    const rules = item.parentNode.innerText;
-    boxCopy.copy(rules);
-    modal.open();
+const box = document.querySelector('#box')
+const boxPreview = new Box(box);
+boxPreview.updateBoxShadowValue();
+
+const boxColorRef = document.querySelector('#box-color-value')
+const boxColor = new BoxColor(box, boxColorRef)
+boxColor.initialize();
+
+
+const rules = document.querySelectorAll('#rules-area > p > span')
+
+const boxRules = Array.from(rules).map(rule => new BoxRule(rule, box))
+
+boxRules.forEach(rule => rule.updateRuleText())
+
+const inputs = document.querySelectorAll('input[type="range"], #color')
+
+inputs.forEach((input) => {
+  const inputChangeEvent = 'input'
+
+  input.addEventListener(inputChangeEvent, (e) => {
+    const { value, name } = e.target
+    const update = updateValues[name]
+
+    update(value)
+    boxPreview.updateBoxShadowValue();
+    boxRules.forEach(rule => rule.updateRuleText())
   })
 })
 
-modalButton.addEventListener('click', () => {
-  modal.close();
+const button = document.querySelector('#button')
+
+let insetShadow = false;
+button.addEventListener('click', () => {
+  insetShadow = !insetShadow;
+  const update = updateValues['inset']
+  update(insetShadow)
+
+  const defineButtonText = insetShadow ? 'Inner Shadow' : 'Out Shadow'
+  button.innerHTML = defineButtonText
+  boxPreview.updateBoxShadowValue()
+  boxRules.forEach(rule => rule.updateRuleText())
+})
+
+const colorInput = document.querySelector('#box-color-value')
+colorInput.addEventListener('input', (e) => {
+  const { value } = e.target
+  boxColor.updateColor(value)
 })
