@@ -23,8 +23,8 @@ export class Box {
   }
 
   updateBoxShadowValue() {
-    const hexAlpha = this.#transformHexToRGBA()
     const hasInset = this.defineInset()
+    const hexAlpha = this.#transformHexToRGBA()
 
     const boxShadowStyle = `
     ${this.horizontal.value}px
